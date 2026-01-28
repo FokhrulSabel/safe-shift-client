@@ -64,8 +64,7 @@ const OurServices = () => {
                   `}
               >
                 <div
-                  className={`w-14 h-14 mx-auto flex items-center justify-center rounded-full mb-4
-                    ${service.highlight ? "bg-white" : "bg-gray-100"}`}
+                  className={`w-14 h-14 mx-auto flex items-center justify-center rounded-full mb-4`}
                 >
                   {service.icon}
                 </div>
