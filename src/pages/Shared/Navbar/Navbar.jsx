@@ -78,7 +78,7 @@ const Navbar = () => {
             Log in
           </Link>
         )}
-        <Link className="btn btn-primary text-black mx-4" to="/">
+        <Link className="btn btn-primary text-black mx-4" to="/rider">
           Be a Rider
         </Link>
       </div>
