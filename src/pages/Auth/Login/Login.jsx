@@ -64,7 +64,7 @@ const Login = () => {
           <button className="btn btn-neutral mt-4">Login</button>
         </fieldset>
         <p>
-          New to Zap Shift{" "}
+          New to Safe Shift{" "}
           <Link
             state={location.state}
             className="text-blue-400 underline"
