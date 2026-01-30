@@ -4,8 +4,10 @@ import { auth } from "../firebase/firebase.init";
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 
 const googleProvider = new GoogleAuthProvider();
@@ -29,8 +31,21 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
+  const logOut = () => {
+    setLoading(true);
+    return signOut(auth);
+  };
+
   // observe user state
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => {
+      unSubscribe();
+    };
+  }, []);
 
   const authInfo = {
     user,
@@ -38,6 +53,7 @@ const AuthProvider = ({ children }) => {
     registerUser,
     signInUser,
     signInGoogle,
+    logOut
   };
 
   return <AuthContext value={authInfo}>{children}</AuthContext>;
