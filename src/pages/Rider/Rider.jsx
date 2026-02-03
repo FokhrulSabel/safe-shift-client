@@ -3,6 +3,7 @@ import { useForm, useWatch } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
 
 const Rider = () => {
   const {
@@ -25,10 +26,22 @@ const Rider = () => {
     return districts;
   };
 
-  const senderRegion = useWatch({ control, name: "senderRegion" });
+  const riderRegion = useWatch({ control, name: "region" });
 
   const handleRiderApplication = (data) => {
     console.log(data);
+    axiosSecure.post("/riders", data).then((res) => {
+      if (res.data.insertedId) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title:
+            "Your application has been submitted. We will reach to you in 145 days",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    });
   };
   return (
     <div>
@@ -39,35 +52,35 @@ const Rider = () => {
       >
         {/* two column */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* sender Details */}
+          {/* rider Details */}
 
           <fieldset className="fieldset">
             <h4 className="text-2xl font-semibold">Rider Details</h4>
-            {/* sender name */}
-            <label className="label">Sender Name</label>
+            {/* rider name */}
+            <label className="label">Rider Name</label>
             <input
               type="text"
-              {...register("senderName")}
+              {...register("name")}
               defaultValue={user?.displayName}
               className="input w-full"
               placeholder="Sender Name"
             />
 
-            {/* sender email */}
-            <label className="label">Sender Email</label>
+            {/* rider email */}
+            <label className="label">Email</label>
             <input
               type="text"
-              {...register("senderEmail")}
+              {...register("email")}
               defaultValue={user?.email}
               className="input w-full"
               placeholder="Sender Email"
             />
 
-            {/* sender region */}
+            {/* rider region */}
             <fieldset className="fieldset">
-              <legend className="fieldset-legend">Sender Regions</legend>
+              <legend className="fieldset-legend">Regions</legend>
               <select
-                {...register("senderRegion")}
+                {...register("region")}
                 defaultValue="Pick a region"
                 className="select"
               >
@@ -80,16 +93,16 @@ const Rider = () => {
               </select>
             </fieldset>
 
-            {/* sender districts */}
+            {/* rider districts */}
             <fieldset className="fieldset">
-              <legend className="fieldset-legend">Sender Districts</legend>
+              <legend className="fieldset-legend">Districts</legend>
               <select
-                {...register("senderDistrict")}
+                {...register("district")}
                 defaultValue="Pick a district"
                 className="select"
               >
                 <option disabled={true}>Pick a district</option>
-                {districtsByRegion(senderRegion).map((r, i) => (
+                {districtsByRegion(riderRegion).map((r, i) => (
                   <option key={i} value={r}>
                     {r}
                   </option>
@@ -97,67 +110,51 @@ const Rider = () => {
               </select>
             </fieldset>
 
-            {/* sender address */}
-            <label className="label mt-4">Sender Address</label>
+            {/* rider address */}
+            <label className="label mt-4">Your Address</label>
             <input
               type="text"
-              {...register("senderAddress")}
+              {...register("address")}
               className="input w-full"
               placeholder="Sender Address"
             />
           </fieldset>
           {/* receiver Details */}
           <fieldset className="fieldset">
-            <h4 className="text-2xl font-semibold">Receiver Details</h4>
+            <h4 className="text-2xl font-semibold">More Details</h4>
             {/* receiver name */}
-            <label className="label">Receiver Name</label>
+            <label className="label">Driving License</label>
             <input
               type="text"
-              {...register("receiverName")}
+              {...register("license")}
               className="input w-full"
-              placeholder="Receiver Name"
+              placeholder="Driving License"
             />
 
             {/* receiver email */}
-            <label className="label">Receiver Email</label>
+            <label className="label">NID</label>
             <input
               type="text"
-              {...register("receiverEmail")}
+              {...register("nid")}
               className="input w-full"
-              placeholder="Receiver Email"
+              placeholder="NID"
             />
 
-            {/* receiver region */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Receiver Regions</legend>
-              <select
-                {...register("receiverRegion")}
-                defaultValue="Pick a region"
-                className="select"
-              >
-                <option disabled={true}>Pick a region</option>
-                {regions.map((r, i) => (
-                  <option key={i} value={r}>
-                    {r}
-                  </option>
-                ))}
-              </select>
-            </fieldset>
-
-            {/* receiver address */}
-            <label className="label mt-4">Receiver Address</label>
+            {/* Bike */}
+            <label className="label mt-4">BIKE</label>
             <input
               type="text"
-              {...register("receiverAddress")}
+              {...register("bike")}
               className="input w-full"
-              placeholder="Receiver Address"
+              placeholder="Bike"
             />
+            {/*  address */}
           </fieldset>
         </div>
         <input
           type="submit"
           className="btn btn-primary mt-8 text-black"
-          value="Send Parcel"
+          value="Apply as a Rider"
         />
       </form>
     </div>
