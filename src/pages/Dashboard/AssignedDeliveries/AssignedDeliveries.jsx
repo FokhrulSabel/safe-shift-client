@@ -11,14 +11,12 @@ const AssignedDeliveries = () => {
     queryKey: ["parcels", user.email, "driver_assigned"],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/parcels?riderEmail=${user.email}&deliveryStatus=driver_assigned`,
+        `/parcels/rider?riderEmail=${user.email}&deliveryStatus=driver_assigned`,
       );
+
       return res.data;
     },
   });
-
-  const handleParcelAccept = (parcel) => {};
-  const handleParcelReject = (parcel) => {};
 
   return (
     <div>
@@ -32,25 +30,17 @@ const AssignedDeliveries = () => {
               <th></th>
               <th>Name</th>
               <th>Confirm</th>
-              <th>Other Actions</th>
+              <th>Favorite Color</th>
             </tr>
           </thead>
           <tbody>
             {parcels.map((parcel, i) => (
-              <tr>
+              <tr key={parcel._id}>
                 <th>{i + 1}</th>
                 <td>{parcel.parcelName}</td>
                 <td>
-                  <button
-                    onClick={() => handleParcelAccept(parcel)}
-                    className="btn btn-primary text-black"
-                  >
-                    Accept
-                  </button>
-                  <button
-                    onClick={() => handleParcelReject(parcel)}
-                    className="btn btn-secondary text-white"
-                  >
+                  <button className="btn btn-primary text-black">Accept</button>
+                  <button className="btn btn-warning text-black ms-2">
                     Reject
                   </button>
                 </td>
