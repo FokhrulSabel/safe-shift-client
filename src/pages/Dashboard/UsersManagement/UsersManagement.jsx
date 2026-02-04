@@ -16,10 +16,10 @@ const UsersManagement = () => {
     },
   });
 
-  const handleMakeUser = (user) => {
+  const handleMakeAdmin = (user) => {
     const roleInfo = { role: "admin" };
     //TODO: must ask for confirmation before proceed
-    axiosSecure.patch(`/users/${user._id}`, roleInfo).then((res) => {
+    axiosSecure.patch(`/users/${user._id}/role`, roleInfo).then((res) => {
       console.log(res.data);
       if (res.data.modifiedCount) {
         refetch();
@@ -37,7 +37,7 @@ const UsersManagement = () => {
   const handleRemoveAdmin = (user) => {
     const roleInfo = { role: "user" };
     //TODO: must ask for confirmation before proceed
-    axiosSecure.patch(`/users/${user._id}`, roleInfo).then((res) => {
+    axiosSecure.patch(`/users/${user._id}/role`, roleInfo).then((res) => {
       if (res.data.modifiedCount) {
         refetch();
         Swal.fire({
@@ -100,7 +100,7 @@ const UsersManagement = () => {
                     </button>
                   ) : (
                     <button
-                      onClick={() => handleMakeUser(user)}
+                      onClick={() => handleMakeAdmin(user)}
                       className="btn bg-green-400"
                     >
                       <FaUserShield></FaUserShield>
