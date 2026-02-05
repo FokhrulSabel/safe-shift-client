@@ -3,7 +3,6 @@ import React from "react";
 import { useParams } from "react-router";
 import useAxios from "../../hooks/useAxios";
 
-
 const ParcelTrack = () => {
   const { trackingId } = useParams();
   const axiosInstance = useAxios();
@@ -22,9 +21,11 @@ const ParcelTrack = () => {
       <p>Logs so far: {trackings.length}</p>
 
       <ul className="timeline timeline-vertical">
-        {trackings.map(log => (
-          <li>
-            <div className="timeline-start">1984</div>
+        {trackings.map((log) => (
+          <li key={log._id}>
+            <div className="timeline-start">
+              {new Date(log.createdAt).toLocaleString()}
+            </div>
             <div className="timeline-middle">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +41,7 @@ const ParcelTrack = () => {
               </svg>
             </div>
             <div className="timeline-end timeline-box">
-              First Macintosh computer
+              <span className="text-xl">{log.details}</span>
             </div>
             <hr />
           </li>
